@@ -689,11 +689,17 @@ pub trait NSRunningApplication: Sized {
             runningApplicationsWithBundleIdentifier: bundleIdentifier
         ]
     }
+
+    unsafe fn processIdentifier(self) -> libc::pid_t;
 }
 
 impl NSRunningApplication for id {
     unsafe fn activateWithOptions_(self, options: NSApplicationActivationOptions) -> BOOL {
         msg_send![self, activateWithOptions: options as NSUInteger]
+    }
+
+    unsafe fn processIdentifier(self) -> libc::pid_t {
+        msg_send![self, processIdentifier]
     }
 }
 
