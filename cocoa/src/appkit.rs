@@ -561,6 +561,22 @@ pub enum NSRequestUserAttentionType {
 
 pub static NSMainMenuWindowLevel: i32 = 24;
 
+pub trait NSWorkspace: Sized {
+    unsafe fn sharedWorkspace(_: Self) -> id;
+
+    unsafe fn frontmostApplication(self) -> id /* NSRunningApplication */;
+}
+
+impl NSWorkspace for id {
+    unsafe fn sharedWorkspace(_: Self) -> id {
+        msg_send![class!(NSWorkspace), sharedWorkspace]
+    }
+
+    unsafe fn frontmostApplication(self) -> id {
+        msg_send![self, frontmostApplication]
+    }
+}
+
 pub trait NSApplication: Sized {
     unsafe fn sharedApplication(_: Self) -> id {
         msg_send![class!(NSApplication), sharedApplication]
