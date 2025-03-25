@@ -691,6 +691,8 @@ pub trait NSRunningApplication: Sized {
     }
 
     unsafe fn processIdentifier(self) -> libc::pid_t;
+
+    unsafe fn bundleIdentifier(self) -> id /* NSString */;
 }
 
 impl NSRunningApplication for id {
@@ -700,6 +702,10 @@ impl NSRunningApplication for id {
 
     unsafe fn processIdentifier(self) -> libc::pid_t {
         msg_send![self, processIdentifier]
+    }
+
+    unsafe fn bundleIdentifier(self) -> id {
+        msg_send![self, bundleIdentifier]
     }
 }
 
